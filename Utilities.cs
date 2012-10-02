@@ -23,30 +23,5 @@ namespace MajiirKerbalLib
             s.Z = state.Z;
             return s;
         }
-
-        /// <summary>
-        /// Adjusts a given setpoint so that rotation around the given axis is minimized.
-        /// See: http://kerbalspaceprogram.com/forum/showthread.php/9398-One-Attitude-Controller-to-Rule-Them-All?p=149405&viewfull=1#post149405
-        /// </summary>
-        /// <param name="setpoint">Unadjusted setpoint</param>
-        /// <param name="shipRotation">Current orientation of the vessel</param>
-        /// <param name="axis">Axis about which to minimize rotation</param>
-        /// <returns>Adjusted setpoint</returns>
-        public static Quaternion UnrollAxis(Quaternion setpoint, Quaternion shipRotation, Vector3 axis)
-        {
-            var a = Quaternion.Dot(shipRotation, setpoint * new Quaternion(axis.x, axis.y, axis.z, 0));
-            var q_qs = Quaternion.Dot(shipRotation, setpoint);
-            var b = (a == 0) ? Math.Sign(q_qs) : (q_qs / a);
-            var g = b / Mathf.Sqrt((b * b) + 1);
-            var gu = Mathf.Sqrt(1 - (g * g)) * axis;
-            var q_d = new Quaternion()
-            {
-                w = g,
-                x = gu.x,
-                y = gu.y,
-                z = gu.z
-            };
-            return setpoint * q_d;
-        }
     }
 }
