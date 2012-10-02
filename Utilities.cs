@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MajiirKerbalLib
 {
-    static class Utilities
+    internal static class Utilities
     {
         public static FlightCtrlState CopyFlightCtrlState(FlightCtrlState state)
         {
