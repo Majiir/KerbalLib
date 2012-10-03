@@ -46,7 +46,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdvancedSAS.cs" />
     <Compile Include="EngineCommander.cs" />
     <Compile Include="LiquidEngine.cs" />
     <Compile Include="LiquidFuelEngine.cs" />
