@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MajiirKerbalLib
 {
-    class VesselCommander
+    internal class VesselCommander
     {
         #region Static factory
 
