@@ -27,5 +27,16 @@ namespace MajiirKerbalLib
             }
             base.onPartFixedUpdate();
         }
+
+        public override bool RequestRCS(float amount, int earliestStage)
+        {
+            var commander = VesselCommander.GetInstance(this.vessel);
+            if (!commander.ReturnRealRCS)
+            {
+                commander.RequestedRCS += amount;
+                return true;
+            }
+            return base.RequestRCS(amount, earliestStage);
+        }
     }
 }
