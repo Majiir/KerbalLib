@@ -46,6 +46,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="VesselCommander.cs" />
     <Compile Include="EngineCommander.cs" />
     <Compile Include="LiquidEngine.cs" />
     <Compile Include="LiquidFuelEngine.cs" />
