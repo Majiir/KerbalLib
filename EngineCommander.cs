@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MajiirKerbalLib
 {
-    class EngineCommander
+    internal class EngineCommander
     {
         #region Static utility methods
 
