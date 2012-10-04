@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="RCSModule.cs" />
     <Compile Include="RCSFuelTank.cs" />
+    <Compile Include="VesselCommander.cs" />
     <Compile Include="EngineCommander.cs" />
     <Compile Include="FuelTank.cs" />
     <Compile Include="LiquidEngine.cs" />

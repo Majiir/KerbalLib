@@ -7,60 +7,34 @@ namespace MajiirKerbalLib
 {
     class EngineCommander
     {
-        #region Static factory
-
-        private static Dictionary<WeakReference<Vessel>, EngineCommander> commanders = new Dictionary<WeakReference<Vessel>, EngineCommander>();
-
-        public static bool IsActive { get { return isActive; } set { isActive = value; } }
-        private static bool isActive = true;
-
-        public static EngineCommander GetInstance(Vessel vessel)
-        {
-            foreach (var wr in commanders.Keys.ToArray())
-            {
-                var v = wr.Target;
-                if (v == null)
-                {
-                    commanders.Remove(wr);
-                    MonoBehaviour.print(String.Format("[MajiirKerbalLib] Removed EngineCommander for collected vessel ({0} remaining)", commanders.Count));
-                    continue;
-                }
-                if (v == vessel)
-                {
-                    return commanders[wr];
-                }
-            }
-
-            var commander = new EngineCommander();
-            commanders[new WeakReference<Vessel>(vessel)] = commander;
-            MonoBehaviour.print(String.Format("[MajiirKerbalLib] Created EngineCommander for {0} ({1} total)", vessel.name, commanders.Count));
-            return commander;
-        }
-
-        #endregion
-
         #region Static utility methods
 
         public static float UpdateThrust(float mainThrottle, LiquidFuelEngine engine)
         {
-            if (!IsActive)
-            {
-                return mainThrottle;
-            }
             if (engine.vessel == null)
             {
                 MonoBehaviour.print(String.Format("[MajiirKerbalLib] Null vessel for {0}", engine.name));
                 return mainThrottle;
             }
-            return EngineCommander.GetInstance(engine.vessel).Update(mainThrottle, engine);
+            var commander = VesselCommander.GetInstance(engine.vessel).EngineCommander;
+            if (!commander.IsActive)
+            {
+                return mainThrottle;
+            }
+            return commander.Update(mainThrottle, engine);
         }
 
         #endregion
 
+        public bool IsActive { get; set; }
+
         private int lastFrame = -1;
         private Dictionary<LiquidFuelEngine, float> throttleValues;
 
-        private EngineCommander() { }
+        public EngineCommander()
+        {
+            IsActive = true;
+        }
 
         private float Update(float mainThrottle, LiquidFuelEngine targetEngine)
         {
