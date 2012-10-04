@@ -39,8 +39,12 @@ namespace MajiirKerbalLib
         private VesselCommander()
         {
             this.EngineCommander = new EngineCommander();
+            this.ReturnRealRCS = true;
         }
 
         public EngineCommander EngineCommander { get; private set; }
+
+        public bool ReturnRealRCS { get; set; }
+        public float RequestedRCS { get; set; }
     }
 }
