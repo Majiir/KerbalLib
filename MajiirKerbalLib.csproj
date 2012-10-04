@@ -46,8 +46,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdvancedSAS.cs" />
+    <Compile Include="RCSModule.cs" />
+    <Compile Include="RCSFuelTank.cs" />
+    <Compile Include="VesselCommander.cs" />
     <Compile Include="EngineCommander.cs" />
+    <Compile Include="FuelTank.cs" />
     <Compile Include="LiquidEngine.cs" />
     <Compile Include="LiquidFuelEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
