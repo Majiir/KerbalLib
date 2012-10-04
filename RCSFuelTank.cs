@@ -15,6 +15,9 @@ namespace MajiirKerbalLib
             if ((this.state == PartStates.DEACTIVATED) && (this.fuel > 0))
             {
                 this.state = PartStates.ACTIVE;
+            }
+            if (this.state == PartStates.ACTIVE)
+            {
                 if (this.stackIcon != null)
                 {
                     this.stackIcon.SetIconColor(XKCDColors.LightPeriwinkle);
@@ -23,7 +26,6 @@ namespace MajiirKerbalLib
                 {
                     MonoBehaviour.print("[MajiirKerbalLib] StackIcon was null!");
                 }
-                this.getFuel(0);
             }
             base.onPartFixedUpdate();
         }
