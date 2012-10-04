@@ -18,14 +18,7 @@ namespace MajiirKerbalLib
             }
             if (this.state == PartStates.ACTIVE)
             {
-                if (this.stackIcon != null)
-                {
-                    this.stackIcon.SetIconColor(XKCDColors.LightPeriwinkle);
-                }
-                else
-                {
-                    MonoBehaviour.print("[MajiirKerbalLib] StackIcon was null!");
-                }
+                this.stackIcon.SetIconColor(XKCDColors.LightPeriwinkle);
             }
             base.onPartFixedUpdate();
         }
