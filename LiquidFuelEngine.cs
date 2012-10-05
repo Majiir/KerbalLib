@@ -39,11 +39,12 @@ namespace MajiirKerbalLib
             base.onCtrlUpd(state);
         }
 
-        protected override void onPartUpdate()
+        protected override void onPartFixedUpdate()
         {
-            base.onPartUpdate();
-            Events["DisableCommander"].active = VesselCommander.GetInstance(this.vessel).EngineCommander.IsActive;
-            Events["EnableCommander"].active = !VesselCommander.GetInstance(this.vessel).EngineCommander.IsActive;
+            base.onPartFixedUpdate();
+            var commander = VesselCommander.GetInstance(this.vessel).EngineCommander;
+            Events["DisableCommander"].active = commander.IsActive;
+            Events["EnableCommander"].active = !commander.IsActive;
         }
 
         [KSPEvent(guiActive = true, guiName = "Enable Command", active = false)]
