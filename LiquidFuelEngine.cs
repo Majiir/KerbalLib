@@ -39,9 +39,9 @@ namespace MajiirKerbalLib
             base.onCtrlUpd(state);
         }
 
-        protected override void onPartUpdate()
+        protected override void onPartFixedUpdate()
         {
-            base.onPartUpdate();
+            base.onPartFixedUpdate();
             Events["DisableCommander"].active = VesselCommander.GetInstance(this.vessel).EngineCommander.IsActive;
             Events["EnableCommander"].active = !VesselCommander.GetInstance(this.vessel).EngineCommander.IsActive;
         }
