@@ -19,25 +19,26 @@ namespace MajiirKerbalLib
                 this.DrainFuel(0);
             }
             base.onPartFixedUpdate();
-            var commander = VesselCommander.GetInstance(this.vessel).EngineCommander;
-            Events["DisableFlow"].active = this.allowFlow;
-            Events["EnableFlow"].active = !this.allowFlow;
         }
 
-        [KSPEvent(guiActive = true, guiName = "Enable flow", active = false)]
-        public void EnableFlow()
+        [KSPEvent(guiActive = false, guiName = "Enable flow")]
+        private void AllowFlow()
         {
-            Events["DisableFlow"].active = true;
-            Events["EnableFlow"].active = false;
             this.allowFlow = true;
+            UpdateGui();
         }
 
         [KSPEvent(guiActive = true, guiName = "Disable flow")]
-        public void DisableFlow()
+        private void DenyFlow()
         {
-            Events["DisableFlow"].active = false;
-            Events["EnableFlow"].active = true;
             this.allowFlow = false;
+            UpdateGui();
+        }
+
+        private void UpdateGui()
+        {
+            Events["AllowFlow"].guiActive = Events["AllowFlow"].active = !this.allowFlow;
+            Events["DenyFlow"].guiActive = Events["DenyFlow"].active = this.allowFlow;
         }
     }
 }

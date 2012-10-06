@@ -42,7 +42,7 @@ namespace MajiirKerbalLib
             base.onCtrlUpd(state);
         }
 
-        [KSPEvent(guiActive = true, guiName = "Enable Engine", active = false)]
+        [KSPEvent(guiActive = true, guiName = "Activate", active = false)]
         public void EnableEngine()
         {
             Events["DisableEngine"].active = true;
@@ -50,7 +50,7 @@ namespace MajiirKerbalLib
             EngineEnabled = true;
         }
 
-        [KSPEvent(guiActive = true, guiName = "Disable Engine")]
+        [KSPEvent(guiActive = true, guiName = "Deactivate")]
         public void DisableEngine()
         {
             Events["DisableEngine"].active = false;
