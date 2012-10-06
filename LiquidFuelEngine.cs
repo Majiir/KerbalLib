@@ -47,6 +47,16 @@ namespace MajiirKerbalLib
             Events["EnableCommander"].active = !commander.IsActive;
         }
 
+        protected override void onActiveFixedUpdate()
+        {
+            var temp = this.temperature;
+            base.onActiveFixedUpdate();
+            if (!this.EngineEnabled)
+            {
+                this.temperature = temp;
+            }
+        }
+
         [KSPEvent(guiActive = true, guiName = "Enable Command", active = false)]
         public void EnableCommander()
         {
