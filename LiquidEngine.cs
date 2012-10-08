@@ -42,6 +42,16 @@ namespace MajiirKerbalLib
             base.onCtrlUpd(state);
         }
 
+        protected override void onActiveFixedUpdate()
+        {
+            var temp = this.temperature;
+            base.onActiveFixedUpdate();
+            if (!this.EngineEnabled)
+            {
+                this.temperature = temp;
+            }
+        }
+
         [KSPEvent(guiActive = true, guiName = "Activate", active = false)]
         public void EnableEngine()
         {
