@@ -5,7 +5,7 @@ namespace MajiirKerbalLib
         protected override void onCtrlUpd (FlightCtrlState s)
         {
             var state = Utilities.CopyFlightCtrlState (s);
-            
+            state.mainThrottle = this.engineEnabled ? EngineCommander.UpdateThrust(state.mainThrottle, this) : 0;
             if (state.mainThrottle == 0) {
                 state.pitch = state.roll = state.yaw = 0;
             }

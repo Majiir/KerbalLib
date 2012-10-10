@@ -9,7 +9,7 @@ namespace MajiirKerbalLib
     {
         #region Static utility methods
 
-        public static float UpdateThrust(float mainThrottle, LiquidFuelEngine engine)
+        public static float UpdateThrust<T>(float mainThrottle, T engine) where T : global::Part, IEngine
         {
             if (engine.vessel == null)
             {
@@ -29,14 +29,14 @@ namespace MajiirKerbalLib
         public bool IsActive { get; set; }
 
         private int lastFrame = -1;
-        private Dictionary<LiquidFuelEngine, float> throttleValues;
+        private Dictionary<IEngine, float> throttleValues;
 
         public EngineCommander()
         {
             IsActive = true;
         }
 
-        private float Update(float mainThrottle, LiquidFuelEngine targetEngine)
+        private float Update<T>(float mainThrottle, T targetEngine) where T : global::Part, IEngine
         {
             if (targetEngine.State != PartStates.ACTIVE) { return mainThrottle; }
 
@@ -44,24 +44,24 @@ namespace MajiirKerbalLib
             {
                 lastFrame = Time.frameCount;
 
-                var engineGroups = new SortedDictionary<float, List<LiquidFuelEngine>>();
+                var engineGroups = new SortedDictionary<float, List<IEngine>>();
 
                 float thrust = 0;
                 foreach (var part in targetEngine.vessel.parts)
                 {
-                    var engine = part as LiquidFuelEngine;
+                    var engine = part as IEngine;
                     if (engine != null)
                     {
-                        if (engine.State != PartStates.ACTIVE) { continue; }
-                        thrust += engine.maxThrust;
+                        if (part.State != PartStates.ACTIVE) { continue; }
+                        thrust += engine.MaxThrust;
 
-                        if (!engineGroups.ContainsKey(engine.realIsp)) { engineGroups[engine.realIsp] = new List<LiquidFuelEngine>(); }
-                        engineGroups[engine.realIsp].Add(engine);
+                        if (!engineGroups.ContainsKey(engine.RealIsp)) { engineGroups[engine.RealIsp] = new List<IEngine>(); }
+                        engineGroups[engine.RealIsp].Add(engine);
                     }
                 }
 
                 thrust *= mainThrottle;
-                throttleValues = new Dictionary<LiquidFuelEngine, float>();
+                throttleValues = new Dictionary<IEngine, float>();
 
                 foreach (var kvp in engineGroups.Reverse())
                 {
@@ -69,7 +69,7 @@ namespace MajiirKerbalLib
                     float availableThrust = 0;
                     foreach (var engine in group)
                     {
-                        availableThrust += engine.maxThrust;
+                        availableThrust += engine.MaxThrust;
                     }
                     var groupThrust = Math.Min(availableThrust, thrust);
                     thrust -= groupThrust;
