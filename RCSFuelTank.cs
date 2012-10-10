@@ -6,6 +6,9 @@ namespace MajiirKerbalLib
     {
         private bool allowFlow = true;
 
+        [KSPField(guiActive = true, guiName = "RCS Fuel", guiUnits = "L", guiFormat = "F1", isPersistant = false)]
+        public float displayFuel;
+
         protected override void onPartStart()
         {
             this.started = true;
@@ -23,6 +26,7 @@ namespace MajiirKerbalLib
                 this.stackIcon.SetIconColor(XKCDColors.LightPeriwinkle);
             }
             base.onPartFixedUpdate();
+            this.displayFuel = this.fuel;
         }
 
         public override bool RequestRCS(float amount, int earliestStage)
