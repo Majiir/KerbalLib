@@ -39,6 +39,13 @@ namespace MajiirKerbalLib
             }
             if (!allowFlow)
             {
+                foreach (var part in this.children)
+                {
+                    if (part.RequestRCS(amount, earliestStage))
+                    {
+                        return true;
+                    }
+                }
                 return false;
             }
             return base.RequestRCS(amount, earliestStage);
