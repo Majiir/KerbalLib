@@ -42,7 +42,7 @@ namespace MajiirKerbalLib
             base.onCtrlUpd(state);
         }
         
-        public float realIsp
+        public float RealIsp
         {
             get
             {
