@@ -20,5 +20,25 @@ namespace MajiirKerbalLib
             }
             base.onPartFixedUpdate();
         }
+
+        [KSPEvent(guiActive = false, guiName = "Enable flow")]
+        private void AllowFlow()
+        {
+            this.allowFlow = true;
+            UpdateGui();
+        }
+
+        [KSPEvent(guiActive = true, guiName = "Disable flow")]
+        private void DenyFlow()
+        {
+            this.allowFlow = false;
+            UpdateGui();
+        }
+
+        private void UpdateGui()
+        {
+            Events["AllowFlow"].guiActive = Events["AllowFlow"].active = !this.allowFlow;
+            Events["DenyFlow"].guiActive = Events["DenyFlow"].active = this.allowFlow;
+        }
     }
 }

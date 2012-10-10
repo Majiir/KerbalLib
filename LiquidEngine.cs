@@ -41,7 +41,7 @@ namespace MajiirKerbalLib
             }
             base.onCtrlUpd(state);
         }
-
+        
         public float realIsp
         {
             get
@@ -58,8 +58,18 @@ namespace MajiirKerbalLib
                 return isp;
             }
         }
+        
+        protected override void onActiveFixedUpdate()
+        {
+            var temp = this.temperature;
+            base.onActiveFixedUpdate();
+            if (!this.EngineEnabled)
+            {
+                this.temperature = temp;
+            }
+        }
 
-        [KSPEvent(guiActive = true, guiName = "Enable Engine", active = false)]
+        [KSPEvent(guiActive = true, guiName = "Activate", active = false)]
         public void EnableEngine()
         {
             Events["DisableEngine"].active = true;
@@ -67,7 +77,7 @@ namespace MajiirKerbalLib
             EngineEnabled = true;
         }
 
-        [KSPEvent(guiActive = true, guiName = "Disable Engine")]
+        [KSPEvent(guiActive = true, guiName = "Deactivate")]
         public void DisableEngine()
         {
             Events["DisableEngine"].active = false;
