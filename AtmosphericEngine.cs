@@ -1,3 +1,4 @@
+
 namespace MajiirKerbalLib
 {
     public class AtmosphericEngine : global::AtmosphericEngine, IEngine
@@ -11,23 +12,22 @@ namespace MajiirKerbalLib
             }
             base.onCtrlUpd (state);
         }
-        
-        public float MaxThrust {
-            get {
+
+        public float MaxThrust
+        {
+            get
+            {
                 return this.maximumEnginePower * this.airflowEfficiency;
             }
         }
-        
-        public float RealIsp {
-            get {
+
+        public float RealIsp
+        {
+            get
+            {
                 var massFlowrate = (this.fuelConsumption / Utilities.FuelDensity);
-                var maxThrust = this.MaxThrust;
-                
-                var isp = (maxThrust) / (massFlowrate * Utilities.SurfaceGravity);
-
-                return isp;
+                return this.MaxThrust / (massFlowrate * Utilities.SurfaceGravity);
             }
-        }   
-
+        }
     }
 }

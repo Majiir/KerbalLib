@@ -49,11 +49,7 @@ namespace MajiirKerbalLib
             get
             {
                 var massFlowrate = (this.fuelConsumption / Utilities.FuelDensity);
-                var maxThrust = this.MaxThrust;
-
-                var isp = (maxThrust) / (massFlowrate * Utilities.SurfaceGravity);
-
-                return isp;
+                return this.MaxThrust / (massFlowrate * Utilities.SurfaceGravity);
             }
         }
         
