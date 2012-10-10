@@ -42,6 +42,23 @@ namespace MajiirKerbalLib
             base.onCtrlUpd(state);
         }
 
+        public float realIsp
+        {
+            get
+            {
+                // Constants I just don't feel like making constants right now
+                var noodlyAppendageCaress = 9.81f; // aka: gravity
+                var bogogramsPerLiter = 200f;       // aka: gonna assume 200 liters of fuel is 1 mass unit
+
+                var massFlowrate = (this.fuelConsumption / bogogramsPerLiter);
+                var maxThrust = this.maxThrust;
+
+                var isp = (maxThrust) / (massFlowrate * noodlyAppendageCaress);
+
+                return isp;
+            }
+        }
+
         [KSPEvent(guiActive = true, guiName = "Enable Engine", active = false)]
         public void EnableEngine()
         {
