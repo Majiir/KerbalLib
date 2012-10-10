@@ -20,14 +20,10 @@ namespace MajiirKerbalLib
         
         public float RealIsp {
             get {
-                // Constants I just don't feel like making constants right now
-                var noodlyAppendageCaress = 9.81f; // aka: gravity
-                var bogogramsPerLiter = 200f;       // aka: gonna assume 200 liters of fuel is 1 mass unit
-                
-                var massFlowrate = (this.fuelConsumption / bogogramsPerLiter);
+                var massFlowrate = (this.fuelConsumption / Utilities.FuelDensity);
                 var maxThrust = this.MaxThrust;
                 
-                var isp = (maxThrust) / (massFlowrate * noodlyAppendageCaress);
+                var isp = (maxThrust) / (massFlowrate * Utilities.SurfaceGravity);
 
                 return isp;
             }
