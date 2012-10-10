@@ -1,6 +1,6 @@
 namespace MajiirKerbalLib
 {
-    public class AtmosphericEngine : global::AtmosphericEngine
+    public class AtmosphericEngine : global::AtmosphericEngine, IEngine
     {
         protected override void onCtrlUpd (FlightCtrlState s)
         {

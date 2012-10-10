@@ -1,7 +1,7 @@
 ﻿
 namespace MajiirKerbalLib
 {
-    public class LiquidEngine : global::LiquidEngine
+    public class LiquidEngine : global::LiquidEngine, IEngine
     {
         [KSPField]
         public bool EngineEnabled
@@ -27,6 +27,11 @@ namespace MajiirKerbalLib
 
         private float realMaxThrust;
         private float realMinThrust;
+
+        public float MaxThrust
+        {
+            get { return this.maxThrust; }
+        }
 
         protected override void onCtrlUpd(FlightCtrlState s)
         {
