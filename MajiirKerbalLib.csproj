@@ -46,6 +46,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AtmosphericEngine.cs" />
     <Compile Include="RCSModule.cs" />
     <Compile Include="RCSFuelTank.cs" />
     <Compile Include="VesselCommander.cs" />
