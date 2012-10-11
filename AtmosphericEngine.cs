@@ -22,7 +22,7 @@ namespace MajiirKerbalLib
         {
             get
             {
-                return this.maximumEnginePower * this.airflowEfficiency;
+                return this.EngineEnabled ? this.maximumEnginePower * this.airflowEfficiency : 0;
             }
         }
 
