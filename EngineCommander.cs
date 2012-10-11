@@ -73,7 +73,7 @@ namespace MajiirKerbalLib
                     }
                     var groupThrust = Math.Min(availableThrust, thrust);
                     thrust -= groupThrust;
-                    var throttle = groupThrust / availableThrust;
+                    var throttle = availableThrust > 0 ? groupThrust / availableThrust : 0;
                     foreach (var engine in group)
                     {
                         throttleValues[engine] = throttle;
