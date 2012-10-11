@@ -35,12 +35,16 @@ namespace MajiirKerbalLib
             }
         }
 
+        [KSPField(guiActive = true, guiName = "Specific Impulse", guiUnits = "s", guiFormat = "F1", isPersistant = false)]
+        private float realIsp;
+
         protected override void onPartFixedUpdate()
         {
             base.onPartFixedUpdate();
             var commander = VesselCommander.GetInstance(this.vessel).EngineCommander;
             Events["DisableCommander"].active = commander.IsActive;
             Events["EnableCommander"].active = !commander.IsActive;
+            realIsp = RealIsp;
         }
 
         [KSPEvent(guiActive = true, guiName = "Enable Command", active = false)]
