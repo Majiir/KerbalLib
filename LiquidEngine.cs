@@ -1,7 +1,7 @@
 ﻿
 namespace MajiirKerbalLib
 {
-    public class LiquidEngine : global::LiquidEngine
+    public class LiquidEngine : global::LiquidEngine, IEngine
     {
         [KSPField]
         public bool EngineEnabled
@@ -28,20 +28,31 @@ namespace MajiirKerbalLib
         private float realMaxThrust;
         private float realMinThrust;
 
+        public float MaxThrust
+        {
+            get { return this.maxThrust; }
+        }
+
         protected override void onCtrlUpd(FlightCtrlState s)
         {
             var state = Utilities.CopyFlightCtrlState(s);
-            if (!EngineEnabled)
-            {
-                state.mainThrottle = 0;
-            }
+            state.mainThrottle = EngineEnabled ? EngineCommander.UpdateThrust(state.mainThrottle, this) : 0;
             if (state.mainThrottle == 0)
             {
                 state.pitch = state.roll = state.yaw = 0;
             }
             base.onCtrlUpd(state);
         }
-
+        
+        public float RealIsp
+        {
+            get
+            {
+                var massFlowrate = (this.fuelConsumption / Utilities.FuelDensity);
+                return this.MaxThrust / (massFlowrate * Utilities.SurfaceGravity);
+            }
+        }
+        
         protected override void onActiveFixedUpdate()
         {
             var temp = this.temperature;
@@ -50,6 +61,30 @@ namespace MajiirKerbalLib
             {
                 this.temperature = temp;
             }
+        }
+
+        protected override void onPartFixedUpdate()
+        {
+            base.onPartFixedUpdate();
+            var commander = VesselCommander.GetInstance(this.vessel).EngineCommander;
+            Events["DisableCommander"].active = commander.IsActive;
+            Events["EnableCommander"].active = !commander.IsActive;
+        }
+
+        [KSPEvent(guiActive = true, guiName = "Enable Command", active = false)]
+        public void EnableCommander()
+        {
+            Events["DisableCommander"].active = true;
+            Events["EnableCommander"].active = false;
+            VesselCommander.GetInstance(this.vessel).EngineCommander.IsActive = true;
+        }
+
+        [KSPEvent(guiActive = true, guiName = "Disable Command")]
+        public void DisableCommander()
+        {
+            Events["DisableCommander"].active = false;
+            Events["EnableCommander"].active = true;
+            VesselCommander.GetInstance(this.vessel).EngineCommander.IsActive = false;
         }
 
         [KSPEvent(guiActive = true, guiName = "Activate", active = false)]
