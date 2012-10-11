@@ -5,6 +5,9 @@ namespace MajiirKerbalLib
 {
     internal static class Utilities
     {
+        public const float SurfaceGravity = 9.81f;
+        public const float FuelDensity = 200f;
+
         public static FlightCtrlState CopyFlightCtrlState(FlightCtrlState state)
         {
             var s = new FlightCtrlState();
