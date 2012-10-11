@@ -13,6 +13,11 @@ namespace MajiirKerbalLib
             base.onCtrlUpd (state);
         }
 
+        public bool EngineEnabled
+        {
+            get { return this.engineEnabled; }
+        }
+
         public float MaxThrust
         {
             get
