@@ -3,7 +3,6 @@ namespace MajiirKerbalLib
 {
     public class LiquidEngine : global::LiquidEngine, IEngine
     {
-        [KSPField]
         public bool EngineEnabled
         {
             get { return engineEnabled; }
@@ -23,6 +22,8 @@ namespace MajiirKerbalLib
                 engineEnabled = value;
             }
         }
+
+        [KSPField]
         private bool engineEnabled = true;
 
         private float realMaxThrust;
