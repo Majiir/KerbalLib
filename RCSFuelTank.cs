@@ -4,6 +4,7 @@ namespace MajiirKerbalLib
 {
     public class RCSFuelTank : global::RCSFuelTank
     {
+        [KSPField]
         private bool allowFlow = true;
 
         [KSPField(guiActive = true, guiName = "RCS Fuel", guiUnits = "L", guiFormat = "F1", isPersistant = false)]
