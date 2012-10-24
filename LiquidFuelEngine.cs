@@ -42,7 +42,7 @@ namespace MajiirKerbalLib
         protected override void onCtrlUpd(FlightCtrlState s)
         {
             var state = Utilities.CopyFlightCtrlState(s);
-            state.mainThrottle = EngineEnabled ? EngineCommander.UpdateThrust(state.mainThrottle, this) : 0;
+            state.mainThrottle = EngineEnabled ? EngineCommander.UpdateDifferentialThrust(state.mainThrottle, new UnityEngine.Vector3(state.pitch, state.roll, state.yaw), this) : 0;
             if (state.mainThrottle == 0)
             {
                 state.pitch = state.roll = state.yaw = 0;
