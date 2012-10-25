@@ -26,5 +26,15 @@ namespace MajiirKerbalLib
             s.Z = state.Z;
             return s;
         }
+
+        public static float Dot(this Vector3 lhs, Vector3 rhs)
+        {
+            return Vector3.Dot(lhs, rhs);
+        }
+
+        public static Vector3 Cross(this Vector3 lhs, Vector3 rhs)
+        {
+            return Vector3.Cross(lhs, rhs);
+        }
     }
 }
