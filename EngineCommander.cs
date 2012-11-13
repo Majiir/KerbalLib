@@ -43,42 +43,7 @@ namespace MajiirKerbalLib
             if (Time.frameCount != lastFrame)
             {
                 lastFrame = Time.frameCount;
-
-                var engineGroups = new SortedDictionary<float, List<IEngine>>();
-
-                float thrust = 0;
-                foreach (var part in targetEngine.vessel.parts)
-                {
-                    var engine = part as IEngine;
-                    if (engine != null)
-                    {
-                        if (part.State != PartStates.ACTIVE) { continue; }
-                        thrust += engine.MaxThrust;
-
-                        if (!engineGroups.ContainsKey(engine.RealIsp)) { engineGroups[engine.RealIsp] = new List<IEngine>(); }
-                        engineGroups[engine.RealIsp].Add(engine);
-                    }
-                }
-
-                thrust *= mainThrottle;
-                throttleValues = new Dictionary<IEngine, float>();
-
-                foreach (var kvp in engineGroups.Reverse())
-                {
-                    var group = kvp.Value;
-                    float availableThrust = 0;
-                    foreach (var engine in group)
-                    {
-                        availableThrust += engine.MaxThrust;
-                    }
-                    var groupThrust = Math.Min(availableThrust, thrust);
-                    thrust -= groupThrust;
-                    var throttle = availableThrust > 0 ? groupThrust / availableThrust : 0;
-                    foreach (var engine in group)
-                    {
-                        throttleValues[engine] = throttle;
-                    }
-                }
+                ComputeThrottles(mainThrottle, targetEngine.vessel);
             }
             if (throttleValues.ContainsKey(targetEngine))
             {
@@ -88,6 +53,45 @@ namespace MajiirKerbalLib
             {
                 MonoBehaviour.print(String.Format("[MajiirKerbalLib] Couldn't find throttle level for {0}", targetEngine.name));
                 return mainThrottle;
+            }
+        }
+
+        private void ComputeThrottles(float mainThrottle, Vessel vessel)
+        {
+            var engineGroups = new SortedDictionary<float, List<IEngine>>();
+
+            float thrust = 0;
+            foreach (var part in vessel.parts)
+            {
+                var engine = part as IEngine;
+                if (engine != null)
+                {
+                    if (part.State != PartStates.ACTIVE) { continue; }
+                    thrust += engine.MaxThrust;
+
+                    if (!engineGroups.ContainsKey(engine.RealIsp)) { engineGroups[engine.RealIsp] = new List<IEngine>(); }
+                    engineGroups[engine.RealIsp].Add(engine);
+                }
+            }
+
+            thrust *= mainThrottle;
+            throttleValues = new Dictionary<IEngine, float>();
+
+            foreach (var kvp in engineGroups.Reverse())
+            {
+                var group = kvp.Value;
+                float availableThrust = 0;
+                foreach (var engine in group)
+                {
+                    availableThrust += engine.MaxThrust;
+                }
+                var groupThrust = Math.Min(availableThrust, thrust);
+                thrust -= groupThrust;
+                var throttle = availableThrust > 0 ? groupThrust / availableThrust : 0;
+                foreach (var engine in group)
+                {
+                    throttleValues[engine] = throttle;
+                }
             }
         }
     }
