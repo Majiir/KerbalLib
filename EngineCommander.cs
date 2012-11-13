@@ -58,33 +58,15 @@ namespace MajiirKerbalLib
 
         private void ComputeThrottles(float mainThrottle, Vessel vessel)
         {
-            var engineGroups = new SortedDictionary<float, List<IEngine>>();
-
-            float thrust = 0;
-            foreach (var part in vessel.parts)
-            {
-                var engine = part as IEngine;
-                if (engine != null)
-                {
-                    if (part.State != PartStates.ACTIVE) { continue; }
-                    thrust += engine.MaxThrust;
-
-                    if (!engineGroups.ContainsKey(engine.RealIsp)) { engineGroups[engine.RealIsp] = new List<IEngine>(); }
-                    engineGroups[engine.RealIsp].Add(engine);
-                }
-            }
+            var engines = vessel.parts.Where(p => p.State == PartStates.ACTIVE).OfType<IEngine>();
+            var thrust = engines.Sum(e => e.MaxThrust);
 
             thrust *= mainThrottle;
             throttleValues = new Dictionary<IEngine, float>();
 
-            foreach (var kvp in engineGroups.Reverse())
+            foreach (var group in engines.ToLookup(e => e.RealIsp).OrderByDescending(g => g.Key))
             {
-                var group = kvp.Value;
-                float availableThrust = 0;
-                foreach (var engine in group)
-                {
-                    availableThrust += engine.MaxThrust;
-                }
+                var availableThrust = group.Sum(e => e.MaxThrust);
                 var groupThrust = Math.Min(availableThrust, thrust);
                 thrust -= groupThrust;
                 var throttle = availableThrust > 0 ? groupThrust / availableThrust : 0;
